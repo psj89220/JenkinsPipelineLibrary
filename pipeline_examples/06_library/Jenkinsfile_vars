@@ -1,5 +1,0 @@
-@Library('demo')_
-
-stage('Demo') {  
-  sayHello 'Dave'
-}

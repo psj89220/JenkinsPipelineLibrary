@@ -1,5 +1,0 @@
-stage('send mail') {
-    emailext attachLog: true, body: 'Jenkins Pipeline Tranining', 
-                subject: 'Welcome! TOAST FORWARD', 
-                to: 'hyunil.shin@nhn.com'
-}
