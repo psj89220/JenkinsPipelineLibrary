@@ -8,7 +8,7 @@ def call() {
 
     node() {
         stage('checkout') {
-            git branch: 'test', credentialsId: 'hyunil-shin-integration', url: 'https://github.com/hyunil-shin/java-maven-junit-helloworld.git'
+            git branch: 'master', credentialsId: 'hyunil-shin-integration', url: 'https://github.com/hyunil-shin/java-maven-junit-helloworld.git'
         }
         
         stage('build') {
