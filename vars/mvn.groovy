@@ -1,26 +1,32 @@
 #!/usr/bin/env groovy
 
 def call() {
-    node {
-        checkout scm
+    properties([parameters([
+        string(defaultValue: 'mvn', description: 'Version of Maven to build(ex. apache-maven-3.6.0)', name: 'YourName', trim: true),
+        string(defaultValue: 'java', description: 'openjdk version for compile(ex. openjdk8, openjdk9 openjdk10)', name: 'YourName', trim: true)
+    ])])
 
-        def testType
-        stage('input') {
-          def userInput = input message: 'Choose test type', parameters: [string(defaultValue: 'test', description: 'test or verify', name: 'testType', trim: false)], submitterParameter: 'store'
-          testType = userInput.testType
+    node() {
+        stage('checkout') {
+            git branch: 'test', credentialsId: 'hyunil-shin-integration', url: 'https://github.com/hyunil-shin/java-maven-junit-helloworld.git'
         }
-
+        
         stage('build') {
-            withEnv(["PATH+MAVEN=${tool 'mvn-3.6.0'}/bin"]) {
-                sh 'mvn --version'
-                sh "mvn clean ${testType}"
+            withEnv(["PATH+MAVEN=${tool 'apache-maven-3.6.0'}/bin", "JAVA_HOME=${tool 'openjdk8'}/bin"]) {
+                sh 'mvn --version'           
+                sh "mvn clean ${params.testType} -Dmaven.test.failure.ignore=true"
             }
         }
-
-        stage('report') {
+        
+        stage('test') {
             junit 'target/surefire-reports/*.xml'
             jacoco execPattern: 'target/**.exec'
-            addShortText background: '', borderColor: '', color: '', link: '', text: testType
+        }
+        
+        stage('report') {
+            if(currentBuild.result == "FAILURE" || currentBuild.result == "UNSTABLE") {
+                
+            }
         }
     }
 
