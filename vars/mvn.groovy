@@ -2,8 +2,8 @@
 
 def call() {
     properties([parameters([
-        string(defaultValue: 'mvn', description: 'Version of Maven to build(ex. apache-maven-3.6.0)', name: 'YourName', trim: true),
-        string(defaultValue: 'java', description: 'openjdk version for compile(ex. openjdk8, openjdk9 openjdk10)', name: 'YourName', trim: true)
+        string(defaultValue: 'apache-maven-3.6.0', description: 'Version of Maven to build(ex. apache-maven-3.6.0)', name: 'mvnVersion', trim: true),
+        string(defaultValue: 'openjdk8', description: 'openjdk version for compile(ex. openjdk8, openjdk9 openjdk10)', name: 'javaVersion', trim: true)
     ])])
 
     node() {
